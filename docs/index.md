@@ -194,13 +194,11 @@
 
 # Modelling
 
+![](C:\Users\HP\Pictures\id.PNG)
 
+![](C:\Users\HP\Pictures\id1.PNG)
 
-![image-20210610130433997](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20210610130433997.png)
-
-![image-20210610130448632](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20210610130448632.png)
-
-![image-20210610130459255](C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20210610130459255.png)
+![](C:\Users\HP\Pictures\id2.PNG)
 
 
 
