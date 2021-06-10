@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        <link rel="canonical" href="https://example.com/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>My Docs</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">My Docs</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#rangkuman-web-mining-kd" class="nav-link">RANGKUMAN WEB MINING - KD</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#crawling-data" class="nav-link">Crawling Data :</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#preprocessing" class="nav-link">Preprocessing</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#modelling" class="nav-link">Modelling</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="1"><a href="#evaluasi" class="nav-link">Evaluasi</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="rangkuman-web-mining-kd">RANGKUMAN WEB MINING - KD</h1>
+<p>../README.md</p>
+<h1 id="crawling-data"><strong>Crawling Data :</strong></h1>
+<p><strong><em>Buka CMD</em></strong> </p>
+<ol>
+<li>
+<p>Install scrap dengan cara ketik “pip install scrapy”</p>
+</li>
+<li>
+<p>Scrapy start project scrapy <em>(nama folder  project yang akan dibuat)</em></p>
+</li>
+<li>
+<p>Buka Visual Studio Code untuk membuka folder yang dibuat tadi, lalu jalankan di terminal dengan mengetikkan scrapy genspider jokes (nama file dalam bentuk python yang akan dibuat) lalu copy kan link web yang akan di crawl </p>
+</li>
+<li>
+<p>lalu ketikkan code dibawah :</p>
+</li>
+</ol>
+<p><code>import scrapy</code></p>
+<p><code>class JokesSpider(scrapy.Spider):</code></p>
+<pre><code> `name= 'jokes'`
+
+ `start_urls = [`
+</code></pre>
+<p>​    <code>'http://www.laughfactory.com/jokes/family-jokes'</code></p>
+<pre><code> `]`
+
+ `def parse(self, response):`
+</code></pre>
+<p>​    <code>for joke in response.xpath("//div[@class='jokes']"):</code></p>
+<p>​      <code>yield{</code></p>
+<p>​        <code>'joke_text': joke.xpath(".//div[@class='joke-text']/p").extract_first()</code></p>
+<p>​      <code>}</code></p>
+<p>​    <code>next_page = response.xpath("//li[@class='next']/a/@haref").extract_first()</code></p>
+<p>​    <code>if next_page is not None:</code></p>
+<p>​      <code>next_page_link= response.urljoin(next_page)</code></p>
+<p>​      <code>yield scrapy.Request(url=next_page_link, callback= self.parse)</code></p>
+<ol>
+<li>
+<p>lalu ketikkan perintah : scrapy crawl jokes-o datahasil1.json</p>
+</li>
+<li>
+<p>selesai</p>
+</li>
+</ol>
+<h1 id="preprocessing">Preprocessing</h1>
+<p><code>import re</code></p>
+<p><code>import string</code></p>
+<p><code>import csv</code></p>
+<p><code>import pandas as pd</code></p>
+<p><code>from sklearn.feature_extraction.text import CountVectorizer</code></p>
+<p><code>from sklearn.feature_extraction.text import TfidfTransformer</code></p>
+<p><code>from nltk.tokenize.punkt import PunktSentenceTokenizer</code></p>
+<p><code>from nltk.tokenize import word_tokenize</code></p>
+<p><code>from Sastrawi.Stemmer.StemmerFactory import StemmerFactory</code></p>
+<p><code>from Sastrawi.StopWordRemover.StopWordRemoverFactory import StopWordRemoverFactory</code></p>
+<p><code>from newspaper import Article #melakukan import module newspaper</code></p>
+<p><strong><em><code>\#Scrapping</code></em></strong></p>
+<p><code>def getUrl(address):</code></p>
+<p><code>url = "http://www.laughfactory.com/jokes/family-jokes"#isi url berita</code></p>
+<p><code>article = Article(url)  #membuat variabel yang digunakan untuk memanggil Class Article dan menambahkan parameter url</code></p>
+<p><code>article.download() #melakukan download data dari sebuah halaman website</code></p>
+<p><code>article.parse() #melakukan proses parsing atau pengambilan berita</code></p>
+<p><code>berita = article.text</code></p>
+<p><code>praproses(berita)</code></p>
+<p><code>\#Text Processing</code></p>
+<p><code>def praproses(text): #fungsi preprocesing text</code></p>
+<p><em><code>\#----------- Step1 Case Folding merubah atau menghilangkan karakter yang tidak perlu ------------</code></em></p>
+<p><code>text.lower() #merubah semua huruf ke huruf kecil</code></p>
+<p><code>text = re.sub(r'\d+', '', text) #menghapus berdasarkan regular expression (angka 0 - 9)</code></p>
+<p><em><code>\#----------- Step2 Tokenizing data / memisahkan setiap kata ------------</code></em></p>
+<p><code>doc_tokenizer = PunktSentenceTokenizer()</code></p>
+<p><code>sentences_list = doc_tokenizer.tokenize(text)</code></p>
+<p><code>tempText2 = []</code></p>
+<p><code>for i in sentences_list:</code></p>
+<p>​    <code>getTanslate = i.translate(str.maketrans("","",string.punctuation)) #menghapus tanda baca , . dsb</code></p>
+<p>​    <code>tempText2.append(getTanslate) #tokenizing kata dari data text dengan menggunakan nltk tokenizing</code></p>
+<p><em><code>\#----------- Step3 Filtering stopword / penghapusan kata yang tidak penting ------------</code></em></p>
+<p><code>tempText3 = []</code></p>
+<p><code>factory_stopword = StopWordRemoverFactory()</code></p>
+<p><code>stopword = factory_stopword.create_stop_word_remover()</code></p>
+<p><code>for i in tempText2:</code></p>
+<p>​    <code>removed = stopword.remove(i)</code></p>
+<p>​    <code>tempText3.append(removed)</code></p>
+<p><em><code>*\#----------- Step4 Stemming / menghilangkan infleksi atau kata imbuhan ke bentuk kata dasar ------------*</code></em></p>
+<p><code>hasil = []</code></p>
+<p><code>factory_stemm = StemmerFactory()</code></p>
+<p><code>stemm = factory_stemm.create_stemmer()</code></p>
+<p><code>for i in tempText3:</code></p>
+<p>​    <code>stemmed = stemm.stem(i)</code></p>
+<p>​    <code>hasil.append(stemmed)</code></p>
+<p><code>print(hasil)</code></p>
+<p><code>vsmTfidf(hasil) #melakukan return berupa hasil akhir text yang sudah diproses tadi</code></p>
+<p><code>\#VSM dan TfIdf</code></p>
+<p><code>def vsmTfidf(text): #fungsi vsmtfidf</code></p>
+<p><code>hasil = text</code></p>
+<p><code>count = CountVectorizer()</code></p>
+<p><code>bag = count.fit_transform(hasil)</code></p>
+<p><code>feature = count.get_feature_names()</code></p>
+<p><code>a = feature</code></p>
+<p><code>matrik_vsm = bag.toarray()</code></p>
+<p><code>dfVsm = pd.DataFrame(data=matrik_vsm,index=list(range(1, len(matrik_vsm[:,1])+1, )),columns=a)</code></p>
+<p><code>dfVsm.to_csv(r'vsm.csv')</code></p>
+<p><code>print(dfVsm)</code></p>
+<p><code>tfidf = TfidfTransformer(use_idf=True, norm='l2', smooth_idf=True) #memanggil class tfidfTransformer dengan parameter dan menyimpannya ke variabel</code></p>
+<p><code>convertarray = tfidf.fit_transform(count.fit_transform(hasil)).toarray() #menghitung data dari dataframe dan menyimpannya ke variabel dalam bentuk array</code></p>
+<p><code>print(convertarray) #melakukan print hasil perhitungan</code></p>
+<p><code>print("=========== Exporting to csv ===========")</code></p>
+<p><code>dfbtf = pd.DataFrame(data=convertarray, columns=a) #membuat sebuah dataframe baru dengan data yang sudah kita hitung tfidf nya</code></p>
+<p><code>dfbtf.to_csv(r'tfidftweet.csv') #melakukan export dataframe kedalam csv file</code></p>
+<p><code>getUrl(http://www.laughfactory.com/jokes/family-jokes)</code></p>
+<h1 id="modelling">Modelling</h1>
+<p><img alt="image-20210610130433997" src="C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20210610130433997.png" /></p>
+<p><img alt="image-20210610130448632" src="C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20210610130448632.png" /></p>
+<p><img alt="image-20210610130459255" src="C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20210610130459255.png" /></p>
+<h1 id="evaluasi">Evaluasi</h1>
+<p><strong><em>Metode yang digunakan:</em></strong></p>
+<ol>
+<li>ROUGE-n : Metode ukurannya didasarkan pada recall dan didasarkan pada membandingkan dari n-gram. menggunakan perhitungan dengan ROUGE-n = p/q</li>
+<li>ROUGE-L : Ukuran ini menggunakan Uprangkaian bersama terpanjang diantara serangkaian teks. Artinya semakin panjang LCS antara dua ringkasan kalimat maka semakin mirip</li>
+<li>ROUGE-W : mempertimbangkan LCS tetapi tidak memberikan preferensi pada kalimat yang memiliki kata-kata yang lebih berurutan.</li>
+<li>ROUGE-S : mengukur kejadian bersama skip bigram pada ringkasan rujukan dan ringkasan mesin. Urutan dari bigram diutamakan</li>
+<li>ROUGE-SU : Kelemahan dari ROUGE-S adalah hanya memperhatikan bigrams. JIka kalimat tidak berisi satu bigram yang overlaping maka tidak a kan menghasilkan bobot pada kalimat. Untuk mengatasi masalah ini ROUGE-S ini maka munculllah ROUGE-SU yang merupakan pengembangannya yang juga memperhatikan unigram</li>
+</ol>
+<p><strong><em>Implementasi Rouge dengan Python</em></strong></p>
+<ul>
+<li>Instalasi Library :</li>
+</ul>
+<p><code>pip install git+https://github.com/tagucci/pythonrouge.git atau pip install easy-rouge</code></p>
+<p>Lalu ketikkan perintah : </p>
+<p><code>from rouge.rouge import rouge_n_sentence_level</code></p>
+<p><code>summary_sentence = 'the capital of China is Beijing'.split()</code> </p>
+<p><code>reference_sentence = 'Beijing is the capital of China'.split()</code> </p>
+<p><code>\# Calculate ROUGE-2.</code> </p>
+<p><code>recall, precision, rouge = rouge_n_sentence_level(summary_sentence, reference_sentence, 2)</code> </p>
+<p><code>print('ROUGE-2-R', recall)</code> </p>
+<p><code>print('ROUGE-2-P', precision)</code></p>
+<p><code>print('ROUGE-2-F', rouge)</code> </p>
+<p>Output :</p>
+<p><code>ROUGE-2-R 0.6</code></p>
+<p><code>ROUGE-2-P 0.6</code> </p>
+<p><code>ROUGE-2-F 0.6</code> </p>
+<p><code>ROUGE-2-R 0.6</code></p>
+<ul>
+<li>Implementasi kedua :</li>
+</ul>
+<p><code>from rouge import rouge_n_sentence_level</code></p>
+<p><code>from rouge import rouge_l_sentence_level</code></p>
+<p><code>from rouge import rouge_n_summary_level</code></p>
+<p><code>from rouge import rouge_l_summary_level</code> </p>
+<p><code>from rouge import rouge_w_sentence_level</code> </p>
+<p><code>from rouge import rouge_w_summary_level</code> </p>
+<p><code>reference_sentence = 'the police killed the gunman'.split() summary_sentence = 'the gunman police killed'.split()</code></p>
+<p><code>print('Sentence level:')</code> </p>
+<p><code>score = rouge_n_sentence_level(summary_sentence, reference_sentence, 1)</code>
+   <code>print('ROUGE-1: %f' % score.f1_measure)</code> </p>
+<p><code>_, _, rouge_2 = rouge_n_sentence_level(summary_sentence, reference_sentence, 2)</code></p>
+<p><code>print('ROUGE-2: %f' % rouge_2)</code> </p>
+<p><code>_, _, rouge_l = rouge_l_sentence_level(summary_sentence, reference_sentence)</code> </p>
+<p><code>print('ROUGE-L: %f' % rouge_l)</code></p>
+<p><code>_, _, rouge_w = rouge_w_sentence_level(summary_sentence, reference_sentence)</code> </p>
+<p><code>print('ROUGE-W: %f' % rouge_w)</code></p>
+<p>Output :</p>
+<p><code>Sentence level:</code> </p>
+<p><code>ROUGE-1: 0.888889</code></p>
+<p><code>ROUGE-2: 0.571429</code> </p>
+<p><code>ROUGE-L: 0.666667</code> </p>
+<p><code>ROUGE-W: 0.550527</code></p>
+<ul>
+<li><code>from rouge import rouge_n_sentence_level</code> </li>
+</ul>
+<p><code>from rouge import rouge_l_sentence_level</code> </p>
+<p><code>from rouge import rouge_n_summary_level</code></p>
+<p><code>from rouge import rouge_l_summary_level</code></p>
+<p><code>from rouge import rouge_w_sentence_level</code> </p>
+<p><code>from rouge import rouge_w_summary_level</code> </p>
+<p><code>reference_sentences = ['The gunman was shot dead by the police before more people got hurt'.split(),</code> </p>
+<p><code>'This tragedy causes lives of five , the gunman included'.split(),</code> </p>
+<p><code>'The motivation of the gunman remains unclear'.split(), ]</code> </p>
+<p><code>summary_sentences = [ 'Police killed the gunman . no more people got hurt'.split(),</code> </p>
+<p><code>'Five people got killed including the gunman'.split(),</code> </p>
+<p><code>'It is unclear why the gunman killed people'.split(), ]</code> </p>
+<p><code>print('Summary level:')</code> </p>
+<p><code>_, _, rouge_1 = rouge_n_summary_level(summary_sentences, reference_sentences, 1)</code> </p>
+<p><code>print('ROUGE-1: %f' % rouge_1)</code></p>
+<p><code>_, _, rouge_2 = rouge_n_summary_level(summary_sentences, reference_sentences, 2)</code> </p>
+<p><code>print('ROUGE-2: %f' % rouge_2)</code></p>
+<p><code>_, _, rouge_l = rouge_l_summary_level(summary_sentences, reference_sentences)</code> </p>
+<p><code>print('ROUGE-L: %f' % rouge_l)</code> </p>
+<p><code>_, _, rouge_w = rouge_w_summary_level(summary_sentences, reference_sentences)</code> </p>
+<p><code>print('ROUGE-W: %f' % rouge_w)</code></p>
+<p>Output :</p>
+<p><code>Summary level:</code> </p>
+<p><code>ROUGE-1: 0.400000</code> </p>
+<p><code>ROUGE-2: 0.188679</code></p>
+<p><code>ROUGE-L: 0.327273</code> </p>
+<p><code>ROUGE-W: 0.200430</code></p>
+<ul>
+<li><code>recall, precision, rouge_1 = rouge_n_summary_level(summary_sentences, reference_sentences, 1)</code> </li>
+</ul>
+<p><code>print('ROUGE-2-R', recall)</code> </p>
+<p><code>print('ROUGE-2-P', precision)</code> </p>
+<p><code>print('ROUGE-2-F', rouge)</code></p>
+<p>Output:</p>
+<p><code>ROUGE-2-R 0.36666666666666664</code></p>
+<p><code>ROUGE-2-P 0.44</code></p>
+<p><code>ROUGE-2-F 0.6</code></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.2.1
+Build Date UTC : 2021-06-10 06:23:07.555985+00:00
+-->
