@@ -194,6 +194,18 @@
 
 # Modelling
 
+![](C:\Users\HP\Pictures\id.PNG)
+
+![](C:\Users\HP\Pictures\id1.PNG)
+
+![](C:\Users\HP\Pictures\id2.PNG)
+
+
+
+
+
+
+
 # Evaluasi
 
 ***Metode yang digunakan:***
